@@ -1,0 +1,827 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "description": "Analysing Azure cost difference between hardcoded dates for testing.",
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "panels": [],
+        "title": "Daily Cost Breakdown (Hardcoded Dates)",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "del4yhzgqe2v4c"
+        },
+        "description": "Shows cost changes between consecutive days with green indicating savings and red showing increased costs",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-BlYlRd"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "Cost Difference (₹)",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "scheme",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 2,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "currencyINR"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Current_Cost"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#1F60C4",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Previous_Cost"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "#73BF69",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cost Difference (₹)"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "mode": "palette-classic"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 23,
+          "x": 0,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.75,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "sortBy": "Value",
+            "sortDesc": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xField": "ServiceName",
+          "xTickLabelRotation": 30,
+          "xTickLabelSpacing": 100,
+          "yField": "Cost Difference (₹)"
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "del4yhzgqe2v4c"
+            },
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "Current",
+            "root_selector": "properties.rows[*]",
+            "source": "url",
+            "type": "json",
+            "url": "https://management.azure.com/subscriptions/55e001e1-ace8-42c0-8dda-064faab99411/providers/Microsoft.CostManagement/query?api-version=2023-11-01",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n  \"type\": \"Usage\",\n  \"timeframe\": \"Custom\",\n  \"timePeriod\": {\n    \"from\": \"2025-05-06\",\n    \"to\": \"2025-05-07\"\n  },\n  \"dataset\": {\n    \"granularity\": \"None\",\n    \"aggregation\": {\n      \"totalCost\": {\n        \"name\": \"Cost\",\n        \"function\": \"Sum\"\n      }\n    },\n    \"grouping\": [\n      {\n        \"type\": \"Dimension\",\n        \"name\": \"ServiceName\"\n      }\n    ]\n  }\n}"
+            }
+          },
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "del4yhzgqe2v4c"
+            },
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "Previous",
+            "root_selector": "properties.rows[*]",
+            "source": "url",
+            "type": "json",
+            "url": "https://management.azure.com/subscriptions/55e001e1-ace8-42c0-8dda-064faab99411/providers/Microsoft.CostManagement/query?api-version=2023-11-01",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n  \"type\": \"Usage\",\n  \"timeframe\": \"Custom\",\n  \"timePeriod\": {\n    \"from\": \"2025-05-05\",\n    \"to\": \"2025-05-06\"\n  },\n  \"dataset\": {\n    \"granularity\": \"None\",\n    \"aggregation\": {\n      \"totalCost\": {\n        \"name\": \"Cost\",\n        \"function\": \"Sum\"\n      }\n    },\n    \"grouping\": [\n      {\n        \"type\": \"Dimension\",\n        \"name\": \"ServiceName\"\n      }\n    ]\n  }\n}",
+              "method": "POST"
+            }
+          }
+        ],
+        "title": "Cost Variation Analysis (May 5 vs May 6, 2025)",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "replace": true,
+              "source": "Current"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "2": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "Current_Cost",
+                "1": "ServiceName"
+              }
+            }
+          },
+          {
+            "id": "extractFields",
+            "options": {
+              "replace": true,
+              "source": "Previous"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "2": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "Previous_Cost",
+                "1": "ServiceName"
+              }
+            }
+          },
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "ServiceName",
+              "mode": "outer"
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "Cost Difference (₹)",
+              "binary": {
+                "left": "Current_Cost",
+                "operator": "-",
+                "right": "Previous_Cost"
+              },
+              "mode": "binary"
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "mode": "binary",
+              "reduce": {
+                "include": [
+                  "Cost Difference (₹)"
+                ],
+                "reducer": "abs"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": false,
+                  "field": "Cost Difference (₹)"
+                }
+              ]
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "Cost Difference (₹)": "Cost Difference (₹)",
+                "Current_Cost": "Current (₹)",
+                "Previous_Cost": "Previous (₹)",
+                "ServiceName": "Service"
+              }
+            }
+          },
+          {
+            "id": "renameByRegex",
+            "options": {
+              "regex": "([A-Z])",
+              "renamePattern": " $1"
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "del4yhzgqe2v4c"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 2,
+            "displayName": "Cost (INR)",
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            },
+            "unit": "currencyINR"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 13
+        },
+        "id": 2,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.75,
+          "colorByField": "Cost",
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "none"
+          },
+          "xField": "ServiceName",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0,
+          "yField": "Cost"
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "del4yhzgqe2v4c"
+            },
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "A",
+            "root_selector": "properties.rows[*]",
+            "source": "url",
+            "type": "json",
+            "url": "https://management.azure.com/subscriptions/55e001e1-ace8-42c0-8dda-064faab99411/providers/Microsoft.CostManagement/query?api-version=2023-11-01",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n  \"type\": \"Usage\",\n  \"timeframe\": \"Custom\",\n  \"timePeriod\": {\n    \"from\": \"2025-05-05\",\n    \"to\": \"2025-05-06\"\n  },\n  \"dataset\": {\n    \"granularity\": \"None\",\n    \"aggregation\": {\n      \"totalCost\": {\n        \"name\": \"Cost\",\n        \"function\": \"Sum\"\n      }\n    },\n    \"grouping\": [\n      {\n        \"type\": \"Dimension\",\n        \"name\": \"ServiceName\"\n      }\n    ]\n  }\n}"
+            }
+          }
+        ],
+        "title": "Usage Cost by Services - Hardcoded 2025-05-05",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "replace": true,
+              "source": "A"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "2": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "Cost",
+                "1": "ServiceName"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": true,
+                  "field": "Cost"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "del4yhzgqe2v4c"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 2,
+            "displayName": "Cost (INR)",
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            },
+            "unit": "currencyINR"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 13
+        },
+        "id": 3,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.75,
+          "colorByField": "Cost",
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "none"
+          },
+          "xField": "ServiceName",
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0,
+          "yField": "Cost"
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "columns": [],
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "del4yhzgqe2v4c"
+            },
+            "filters": [],
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "A",
+            "root_selector": "properties.rows[*]",
+            "source": "url",
+            "type": "json",
+            "url": "https://management.azure.com/subscriptions/55e001e1-ace8-42c0-8dda-064faab99411/providers/Microsoft.CostManagement/query?api-version=2023-11-01",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n  \"type\": \"Usage\",\n  \"timeframe\": \"Custom\",\n  \"timePeriod\": {\n    \"from\": \"2025-05-06\",\n    \"to\": \"2025-05-07\"\n  },\n  \"dataset\": {\n    \"granularity\": \"None\",\n    \"aggregation\": {\n      \"totalCost\": {\n        \"name\": \"Cost\",\n        \"function\": \"Sum\"\n      }\n    },\n    \"grouping\": [\n      {\n        \"type\": \"Dimension\",\n        \"name\": \"ServiceName\"\n      }\n    ]\n  }\n}"
+            }
+          }
+        ],
+        "title": "Usage Cost by Services - Hardcoded 2025-05-06",
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "replace": true,
+              "source": "A"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "2": true
+              },
+              "includeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "Cost",
+                "1": "ServiceName"
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "fields": {},
+              "sort": [
+                {
+                  "desc": true,
+                  "field": "Cost"
+                }
+              ]
+            }
+          }
+        ],
+        "type": "barchart"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 23
+        },
+        "id": 4,
+        "panels": [],
+        "title": "Cost Difference Analysis (Hardcoded Dates)",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "yesoreyeram-infinity-datasource",
+          "uid": "del4yhzgqe2v4c"
+        },
+        "description": "Shows the 20 resources with highest cost in descending order",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-BlYlRd"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "Cost (₹)",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "scheme",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "decimals": 2,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "currencyINR"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 24
+        },
+        "id": 7,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.75,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [
+              "sum"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "vertical",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "multi",
+            "sort": "desc"
+          },
+          "xField": "ResourceName",
+          "xTickLabelRotation": 30,
+          "xTickLabelSpacing": 100,
+          "yField": "Cost"
+        },
+        "pluginVersion": "12.0.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "yesoreyeram-infinity-datasource",
+              "uid": "del4yhzgqe2v4c"
+            },
+            "format": "table",
+            "global_query_id": "",
+            "parser": "backend",
+            "refId": "A",
+            "root_selector": "properties.rows[*]",
+            "source": "url",
+            "type": "json",
+            "url": "https://management.azure.com/subscriptions/55e001e1-ace8-42c0-8dda-064faab99411/providers/Microsoft.CostManagement/query?api-version=2023-11-01",
+            "url_options": {
+              "body_content_type": "application/json",
+              "body_type": "raw",
+              "data": "{\n  \"type\": \"Usage\",\n  \"timeframe\": \"Custom\",\n  \"timePeriod\": {\n    \"from\": \"2025-05-06\",\n    \"to\": \"2025-05-07\"\n  },\n  \"dataset\": {\n    \"granularity\": \"None\",\n    \"aggregation\": {\n      \"totalCost\": {\n        \"name\": \"Cost\",\n        \"function\": \"Sum\"\n      }\n    },\n    \"grouping\": [\n      {\n        \"type\": \"Dimension\",\n        \"name\": \"ResourceId\"\n      }\n    ]\n  }\n}",
+              "method": "POST"
+            }
+          }
+        ],
+        "transformations": [
+          {
+            "id": "extractFields",
+            "options": {
+              "replace": true,
+              "source": "A"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {},
+              "indexByName": {},
+              "renameByName": {
+                "0": "Cost",
+                "1": "ResourceId",
+                "2": "Currency"
+              }
+            }
+          },
+          {
+            "id": "calculateField",
+            "options": {
+              "alias": "ResourceName",
+              "binary": {
+                "left": "ResourceId",
+                "operator": "regex",
+                "pattern": "/([^/]+)$",
+                "replaceWith": "$1"
+              },
+              "mode": "binary"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "ResourceId": true,
+                "Currency": true
+              },
+              "indexByName": {
+                "ResourceName": 0,
+                "Cost": 1
+              }
+            }
+          },
+          {
+            "id": "sortBy",
+            "options": {
+              "sort": [
+                {
+                  "field": "Cost",
+                  "desc": true
+                }
+              ]
+            }
+          },
+          {
+            "id": "limit",
+            "options": {
+              "limitField": 20
+            }
+          }
+        ],
+        "type": "barchart",
+        "title": "Top 20 Most Expensive Resources"
+      }
+    ],
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 41,
+    "tags": [
+      "azure",
+      "cost",
+      "difference",
+      "hardcoded"
+    ],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "text": "INR",
+            "value": "INR"
+          },
+          "label": "Currency",
+          "name": "currency",
+          "options": [
+            {
+              "selected": true,
+              "text": "INR",
+              "value": "INR"
+            }
+          ],
+          "query": "INR",
+          "type": "textbox"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-1d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Azure Daily Cost Comparison (Hardcoded Dates)",
+    "uid": "b4ff3ffb-956d-4413-8b23-b89cdf360e7f",
+    "version": 19
+  }
